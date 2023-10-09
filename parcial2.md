@@ -45,7 +45,7 @@ funcion_matriz(matriz,3,3) // Asignando a la funcion los parametros
 
 ## Punteros
 
-**como funcionan?**  
+**Como funcionan?**  
 Son variables que almacenas direcciones de memorias en lugar del valor directo. Por ejemplo, en vez de guardar el valor de numero = 42, almacena la direccion de memoria en donde se encuentra almacenado el valor.
 
 **Como se opera con ellos?**  
@@ -177,3 +177,65 @@ Persona_t persona1; //_t para indicar que es estructura
 ```
 
 ## Memoria dinamica
+
+**¿Entiendo por qué existe aparte de la automática?**  
+Es memoria que se reserva en tiempo de ejecucion. El tamaño puede variar durante la ejecucuion del mismo, es necesaria la memoria dinamica cuando no se sabe cuantos datos o elemenentos se van a tratar. Una vez que el programa termine, hay que liberar la memoria para que otros programas puedan utilizarla
+**¿Entiendo como se usa?**  
+Suele estar almacenada en el heap, o almacenamiento libre, mientras que la memoria estatica esta en el stack o pila. En el heap, el tamaño de memoria podria estar limitado a lo que use el programa durante la ejecucion y a la memoria disponible del sistema operativo. A su vez, es mas dificil de manejar que la estatica, porque se reserva de forma explicita y continua existiendo hasta que sea liberada.  
+**¿Entiendo que es un ALV/VLA?**  
+VLA significa **variant lenght array**, significa que se determina el tamaño del array en la ejecucion del programa, sin especificarlo antes de que arranque, su tamaño puede ir variando a lo largo de la ejecucion segun la cantidad de datos que se trate.  
+**¿Entiendo que es un puntero genérico?**  
+Es un puntero void (void *), puede apuntar a la direccion de cualquier tipo de dato, sin tener que hacer una conversion explicita del mismo. Si se referencia una variable de tipo int, la variable referenciada por el puntero es de tipo int, si es tipo float la variable, la referenciada por el puntero es de tipo float. Esto se logra mediante un casteo, el compilador no sabe a que tipo de dato se esta apuntando durante la ejecucion del programa, asi que se realiza el casteo al tipo de dato. 
+ 
+ ``` c
+ void * voidptr;
+ int numero = 50;
+ int arreglo[3] = {33,10,22};
+ voidptr = &numero;
+ * (int*)voidptr = 345 
+
+ voidptr = arreglo;
+ printf("Valor %d", *(int *)voidptr);
+ ```
+
+**Comos se asigna?** 
+sizeof: Devuelve el numero de bytes que se utilizan para almacenar un tipo de dato.
+malloc: Asigna el numero especificado en bytes
+realloc: Aumenta o disminuye el tamaño de bloque de memoria. Reasigna si es necesario
+calloc: Asigna el numero especificado en bytes y lo inicializa en 0 a todos los bloques.
+free: Libera el bloque de memoria especificado.
+
+## Argumentos por línea de comandos 
+
+**¿Entiendo como funcionan?**  
+Son argumentos que se escriben en la terminal que se va a ejecutar el programa. Por ejemplo
+```
+gcc -o ejercicio1.c multiplicacion
+./multiplicacion.exe 2 3   
+```
+En la funcion main, se va a tener : 
+``` c
+int main(int argc, char* argv[])
+{
+    //resto del codigo
+}
+```
+Le estoy pasando como parametros a la funcion main, el numero 2 y 3. El primer valor de los argumentos por linea de comandos, el 0, es el nombre del programa, en este caso multiplicacion. Despues se tienen el valor numerico 2 en la posicion 1, y 3 en la posicion 2.  
+
+**¿Entiendo como se usan?**  
+Asi como el nombre del programa es el indice 0 del argv[], si se desea verificar que tengan la cantidad de argumentos, se tiene que saber que se ingresa. Por ejemplo si tengo la suma de dos numeros, ya tengo la posicion 1 y 2 con los respectivos numeros, si cuando ejecuto el programa, argc, que es la cantidad de argumentos, es distinto de 3, ya se que me estan faltando o sobrando argumentos.  
+Para usar los valores pasado por argumentos, se guardan en variables, segun el tipo de dato que sea. Al ser ingresados por teclado, son caracteres, para tipo de dato numerico se tiene que hacer una conversion. Ejemplo:
+
+```c
+int main (int argc, char*argv[])
+{
+    if (argc!= 3) 
+    {
+        printf("Faltan argumetnos.");
+    }
+    int numero1 = atoi(argv[1]); //atoi convierte una serie de caraceteres en un valor entero 
+    char[20] = argv[2]; //al ser una serie de caracteres, no es necesario la conversion.
+}
+```
+
+Para mostrar los argumentos podemos usar un bucle que recorra todos los argument value y los muestre por pantalla, como es por indice, se haria con un for. 
